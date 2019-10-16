@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<div class="container" style="padding-top: 5em">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card" style="width:300px">
+        <img class="card-img-top" src="{{ req_info.my_pp.url }}" alt="Profile image">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="myfile">
+            <button type="submit">Upload</button>
+          </form>
+        <div class="card-body">
+          <h3>Account Information</h3>
+          <p class="card-text">Username: {{request.user}}</p>
+          <p class="card-text">First name: {{ request.user.first_name }}</p>
+          <p class="card-text">Last name: {{ request.user.last_name }}</p>
+          <p class="card-text">Date Joined: {{ request.user.date_joined }}</p>
+          <p class="card-text"><em>Interested in:</em>
+            {% for interest in request.user.reqinfo.interested_in.all %}
+            {{ interest }},
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      {% if orders.count > 0 %}
+      <h2 style="padding-top: 2em">List of Orders Placed: </h2>
+      {% for order in orders %}
+      Order : {{ forloop.counter }}<br>
+      {% for item in order.items.all %}
+      {{ item }}, Price:  {{ item.get_total_item_price }}<br>
+      {% endfor %}
+      <b>Total Order Price:{{order.get_total_price}} <br><br></b>
+      {% endfor %}
+      {% endif %}<br>
+
+    </div>
+  </div>
+  <p>Last login: {{ request.user.last_login }}</p>
+</div>
+
+{% endblock %}

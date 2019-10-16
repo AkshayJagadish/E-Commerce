@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block title %}- Product List{% endblock %}
+{% block extra_head %}<link rel="stylesheet" type="text/css "href="{% static "css/products.css" %}">{% endblock %}
+
+{% block content %}
+  <div class="container desc" style="padding-top: 50px; padding-bottom: 200px">
+    <div class="row">
+      <div class="col-lg-6">
+        <a href="" data-fancybox=""><img style="max-width: 100%" src="{{ object.image.url }}"></a>
+      </div>
+      <div class="col-lg-6">
+        <h3 class="title mb-3">{{ object.name}}</h3>
+        <var class="price h3 text-warning">
+          <span class="currency">CAD </span><span class="num">{{object.price}}</span>
+        </var>
+        <span>/per {{ object.measure }}</span>
+
+        <h3>Description</h3>
+        <p>Here goes description consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco </p>
+
+          <a href="{{ object.get_add_to_cart_url }}" class="btn  btn-primary"> <i class="fa fa-shopping-cart"></i> Add to cart </a>
+          <a href="{{ object.get_remove_from_cart_url }}" class="btn  btn-primary"><i class="fa fa-shopping-cart"></i> remove from cart</a>
+        </div>
+      </div>
+    </div>
+    {% endblock %}

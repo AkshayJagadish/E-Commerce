@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<h1 style="text-align: center; padding-top: 50px; padding-bottom:50px">Our Products List</h1>
+
+<div class="container">
+  <div class="row text-center">
+    {% for item in object_list %}
+    <div class="col mb-4">
+      <div class="card" style="width: 18rem; ">
+        <img class="card-img-top" src="{{ item.image.url }}" alt="product Image" style="height: 18rem;">
+        <div class="card-body">
+          <a class="card-title" href="{{ item.get_absolute_url }}"><h2>{{ item.name }}</h2></a>
+          <p class="card-text text-info">CAD {{ item.price }} per {{ item.measure }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

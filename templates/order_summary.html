@@ -1,0 +1,63 @@
+{% extends "base.html"%}
+{% load static %}
+{% block extra_head %}<link rel="stylesheet" type="text/css "href="{% static "css/products.css" %}">{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-bottom: 300px">
+  <h2>Order Summary</h2>
+  <div class="table-responsive">
+    <table class="table" >
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Item Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total Item Price</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for order_item in object.items.all %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ order_item.item.name }}</td>
+          <td>{{ order_item.item.price }}</td>
+          <td>
+            <a href="{% url 'orders:remove-single-item-from-cart' order_item.item.slug %}"><i class="fa fa-minus ml-2 qspacer" aria-hidden="true"></i></a>
+            {{ order_item.quantity }}
+            <a href="{% url 'orders:add-to-cart' order_item.item.slug %}"><i class="qspacer fa fa-plus mm-1" aria-hidden="true"></i></a>
+          </td>
+          <td>
+            {{ order_item.get_total_item_price }}
+            <a href="{% url 'orders:remove-from-cart' order_item.item.slug %}">
+              <i style="float: right; color: darkred" class="fa fa-shopping-cart" aria-hidden="true"></i>
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5"> Your Cart is empty</td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <a class="btn btn-primary" href="{% url 'orders:home' %}">Continue Shopping</a>
+          </td>
+        </tr>
+        {% endfor %}
+        {% if object.get_total_price %}
+        <tr>
+          <td colspan="4"><b>Order Total</b></td>
+          <td><b>{{ object.get_total_price }}</b></td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <a class="btn btn-primary pull-right" href="{% url 'orders:home' %}">Continue Shopping</a>
+            <a class="btn btn-warning pull-right" href="{% url 'orders:checkout' %}">Checkout now</a>
+          </td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+  {% endblock %}
